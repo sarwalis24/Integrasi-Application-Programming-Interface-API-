@@ -22,12 +22,16 @@ class HomePage extends StatelessWidget {
       await file.writeAsString("Hello World from Flutter! - User: $username");
       print('File berhasil ditulis di: $filePath');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('File berhasil ditulis'), backgroundColor: Colors.green),
+        SnackBar(
+            content: Text('File berhasil ditulis'),
+            backgroundColor: Colors.green),
       );
     } catch (e) {
       print('Gagal menulis file: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menulis file: $e'), backgroundColor: Colors.red),
+        SnackBar(
+            content: Text('Gagal menulis file: $e'),
+            backgroundColor: Colors.red),
       );
     }
   }
@@ -48,13 +52,17 @@ class HomePage extends StatelessWidget {
       } else {
         print('File tidak ditemukan: $filePath');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File sample.txt belum dibuat'), backgroundColor: Colors.orange),
+          SnackBar(
+              content: Text('File sample.txt belum dibuat'),
+              backgroundColor: Colors.orange),
         );
       }
     } catch (e) {
       print('Gagal membaca file: $e');
-       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal membaca file: $e'), backgroundColor: Colors.red),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Gagal membaca file: $e'),
+            backgroundColor: Colors.red),
       );
     }
   }
@@ -69,13 +77,17 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dashboard", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        title: Text("Dashboard",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Theme.of(context).scaffoldBackgroundColor, primaryColor.withOpacity(0.05)],
+            colors: [
+              Theme.of(context).scaffoldBackgroundColor,
+              primaryColor.withOpacity(0.05)
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -87,7 +99,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               "Akses Cepat",
-              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+              style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
             ),
             const SizedBox(height: 16),
             GridView.count(
@@ -113,7 +128,7 @@ class HomePage extends StatelessWidget {
                   color: Colors.blue,
                   onTap: () => Navigator.pushNamed(context, '/mhs_list'),
                 ),
-                 _buildQuickAccessCard(
+                _buildQuickAccessCard(
                   context: context,
                   icon: Icons.menu_book_outlined,
                   label: "Data Buku",
@@ -121,14 +136,15 @@ class HomePage extends StatelessWidget {
                   color: Colors.deepOrangeAccent,
                   onTap: () => Navigator.pushNamed(context, '/book_list'),
                 ),
-                 _buildQuickAccessCard(
+                _buildQuickAccessCard(
                   context: context,
                   icon: Icons.person_pin_outlined,
                   label: "Profil Saya",
                   color: Colors.green,
-                  onTap: () => Navigator.pushNamed(context, '/profile', arguments: username),
+                  onTap: () => Navigator.pushNamed(context, '/profile',
+                      arguments: username),
                 ),
-                 _buildQuickAccessCard(
+                _buildQuickAccessCard(
                   context: context,
                   icon: Icons.settings_outlined,
                   label: "Pengaturan",
@@ -137,18 +153,20 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             // Sembunyikan jika di web
             if (!kIsWeb) ...[
               const SizedBox(height: 24),
               Text(
                 "File Manager (Tes)",
-                style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+                style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
               ),
               const SizedBox(height: 16),
               _buildFileManagerCard(context),
             ],
-
           ],
         ),
       ),
@@ -156,7 +174,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAppDrawer(BuildContext context, String username, Color primaryColor) {
+  Widget _buildAppDrawer(
+      BuildContext context, String username, Color primaryColor) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -164,7 +183,8 @@ class HomePage extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountName: Text(
               username,
-              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 18),
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold, fontSize: 18),
             ),
             accountEmail: Text(
               "$username@gmail.com",
@@ -183,12 +203,14 @@ class HomePage extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.home_outlined),
-            title: Text('Home', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Home',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () => Navigator.pop(context),
           ),
           ListTile(
             leading: const Icon(Icons.person_outline),
-            title: Text('Profile', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Profile',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/profile', arguments: username);
@@ -197,7 +219,8 @@ class HomePage extends StatelessWidget {
           const Divider(height: 1, indent: 16, endIndent: 16),
           ListTile(
             leading: const Icon(Icons.shopping_bag_outlined),
-            title: Text('Produk', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Produk',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/produk');
@@ -205,23 +228,26 @@ class HomePage extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.school_outlined),
-            title: Text('Data Mahasiswa (SQLite)', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Data Mahasiswa (SQLite)',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/mhs_list');
             },
           ),
-           ListTile(
+          ListTile(
             leading: const Icon(Icons.menu_book_outlined),
-            title: Text('Data Buku (API)', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Data Buku (API)',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/book_list');
             },
           ),
-           ListTile(
+          ListTile(
             leading: const Icon(Icons.settings_outlined),
-            title: Text('Pengaturan', style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+            title: Text('Pengaturan',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/settings');
@@ -230,13 +256,16 @@ class HomePage extends StatelessWidget {
           const Divider(height: 1, indent: 16, endIndent: 16),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.redAccent),
-            title: Text('Logout', style: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: Colors.redAccent)),
+            title: Text('Logout',
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500, color: Colors.redAccent)),
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.remove('username');
-              await Provider.of<ApiProvider>(context, listen: false).logout(); 
+              await Provider.of<ApiProvider>(context, listen: false).logout();
               if (context.mounted) {
-                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
               }
             },
           ),
@@ -245,7 +274,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildWelcomeCard(BuildContext context, String username, Color primaryColor) {
+  Widget _buildWelcomeCard(
+      BuildContext context, String username, Color primaryColor) {
     return Card(
       elevation: 5,
       child: Container(
@@ -253,7 +283,10 @@ class HomePage extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           gradient: LinearGradient(
-            colors: [primaryColor, Color.lerp(primaryColor, Colors.black, 0.2)!],
+            colors: [
+              primaryColor,
+              Color.lerp(primaryColor, Colors.black, 0.2)!
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -304,7 +337,8 @@ class HomePage extends StatelessWidget {
               const Spacer(),
               Text(
                 label,
-                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold, shadows: []),
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold, shadows: []),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -312,7 +346,8 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[700]),
+                  style: GoogleFonts.poppins(
+                      fontSize: 12, color: Colors.grey[700]),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -332,12 +367,15 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             OutlinedButton.icon(
-              icon: Icon(Icons.save_alt, color: Theme.of(context).colorScheme.primary),
+              icon: Icon(Icons.save_alt,
+                  color: Theme.of(context).colorScheme.primary),
               label: const Text('Write File (Temp)'),
               onPressed: () => _writeFile(context),
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12),
-                side: BorderSide(color: Theme.of(context).colorScheme.primary.withOpacity(0.5)),
+                side: BorderSide(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.5)),
               ),
             ),
             const SizedBox(height: 12),

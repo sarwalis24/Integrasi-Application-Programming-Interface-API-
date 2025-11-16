@@ -18,7 +18,7 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
   late TextEditingController _nimController;
   late TextEditingController _namaController;
   final _formKey = GlobalKey<FormState>();
-  
+
   File? _selectedImage; // State untuk gambar baru
   String? _existingImagePath; // State untuk gambar lama
 
@@ -56,7 +56,7 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
         nim: _nimController.text,
         nama: _namaController.text,
         // Pilih path gambar baru jika ada, jika tidak, gunakan path lama
-        imagePath: _selectedImage?.path ?? _existingImagePath, 
+        imagePath: _selectedImage?.path ?? _existingImagePath,
       );
       Provider.of<MhsProvider>(context, listen: false).updateMhs(updatedMhs);
       Navigator.pop(context);
@@ -76,7 +76,8 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("Update Mahasiswa", style: GoogleFonts.poppins())),
+      appBar:
+          AppBar(title: Text("Update Mahasiswa", style: GoogleFonts.poppins())),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -90,11 +91,12 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
                   backgroundColor: Colors.grey[200],
                   backgroundImage: avatarImage, // Tampilkan gambar
                   child: avatarImage == null
-                      ? Icon(Icons.camera_alt_outlined, size: 50, color: Colors.grey[600])
+                      ? Icon(Icons.camera_alt_outlined,
+                          size: 50, color: Colors.grey[600])
                       : null,
                 ),
               ),
-               Center(
+              Center(
                 child: TextButton(
                   onPressed: _pickImage,
                   child: Text("Ubah Foto Profil"),
@@ -104,12 +106,12 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
               TextFormField(
                 controller: _nimController,
                 decoration: InputDecoration(
-                  labelText: 'NIM', 
+                  labelText: 'NIM',
                   prefixIcon: Icon(Icons.badge_outlined),
                   filled: true,
                   fillColor: Colors.white,
                 ),
-                validator: (value) { /* ... validasi ... */ },
+                validator: (value) {/* ... validasi ... */},
               ),
               const SizedBox(height: 20),
               TextFormField(
@@ -120,16 +122,15 @@ class _UpdateMhsPageState extends State<UpdateMhsPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
-                validator: (value) { /* ... validasi ... */ },
+                validator: (value) {/* ... validasi ... */},
               ),
               const SizedBox(height: 40),
               ElevatedButton.icon(
                 icon: Icon(Icons.update),
                 label: const Text('Update Data'),
                 onPressed: _updateMhs,
-                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16)
-                ),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 16)),
               ),
             ],
           ),

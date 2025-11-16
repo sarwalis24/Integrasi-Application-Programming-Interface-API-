@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     // 1. Validasi form dulu
     if (!_formKey.currentState!.validate()) {
       setState(() {
-         _errorMessage = 'Username dan Password tidak boleh kosong';
+        _errorMessage = 'Username dan Password tidak boleh kosong';
       });
       return; // Berhenti jika form tidak valid
     }
@@ -69,10 +69,10 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       // 7. Tangani error (misal: tidak ada koneksi)
-       setState(() {
-          _errorMessage = 'Terjadi error: $e';
-          _isLoading = false;
-        });
+      setState(() {
+        _errorMessage = 'Terjadi error: $e';
+        _isLoading = false;
+      });
     }
   }
   // ----------------------------------------
@@ -159,7 +159,8 @@ class _LoginPageState extends State<LoginPage> {
                     // Nonaktifkan tombol saat loading
                     onPressed: _isLoading ? null : _validateAndLogin,
                     child: _isLoading
-                        ? const SizedBox( // Tampilkan loading indicator
+                        ? const SizedBox(
+                            // Tampilkan loading indicator
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(

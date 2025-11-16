@@ -6,7 +6,7 @@ import 'package:themenavigation/pages/add_mhs_page.dart';
 import 'package:themenavigation/pages/update_mhs_page.dart';
 import 'package:themenavigation/provider/mhs_provider.dart';
 import 'package:themenavigation/models/mhs_model.dart'; // <-- IMPORT YANG HILANG
-import 'dart:io'; 
+import 'dart:io';
 
 class MhsListPage extends StatelessWidget {
   const MhsListPage({super.key});
@@ -48,14 +48,20 @@ class MhsListPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final mhs = provider.mahasiswa[index];
               String initials = mhs.nama.isNotEmpty
-                  ? mhs.nama.trim().split(' ').map((l) => l[0]).take(2).join().toUpperCase()
+                  ? mhs.nama
+                      .trim()
+                      .split(' ')
+                      .map((l) => l[0])
+                      .take(2)
+                      .join()
+                      .toUpperCase()
                   : '?';
 
               ImageProvider? avatarImage;
               if (mhs.imagePath != null && mhs.imagePath!.isNotEmpty) {
-                 try {
+                try {
                   if (File(mhs.imagePath!).existsSync()) {
-                     avatarImage = FileImage(File(mhs.imagePath!));
+                    avatarImage = FileImage(File(mhs.imagePath!));
                   }
                 } catch (e) {
                   print("Error loading image: $e");
@@ -71,16 +77,18 @@ class MhsListPage extends StatelessWidget {
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0),
-                  
                   leading: CircleAvatar(
                     radius: 25,
-                    backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.8),
                     backgroundImage: avatarImage,
                     child: avatarImage == null
-                        ? Text(initials, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
+                        ? Text(initials,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))
                         : null,
                   ),
-
                   title: Text(
                     mhs.nama,
                     style: GoogleFonts.poppins(
@@ -108,8 +116,8 @@ class MhsListPage extends StatelessWidget {
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete_outline,
-                            color: Colors.redAccent),
+                        icon:
+                            Icon(Icons.delete_outline, color: Colors.redAccent),
                         tooltip: 'Hapus Data',
                         onPressed: () {
                           _showDeleteConfirmation(context, provider, mhs);
@@ -144,7 +152,8 @@ class MhsListPage extends StatelessWidget {
 
   // Fungsi _showDeleteConfirmation
   void _showDeleteConfirmation(
-      BuildContext context, MhsProvider provider, MhsModel mhs) { // <-- Tipe data MhsModel diperlukan
+      BuildContext context, MhsProvider provider, MhsModel mhs) {
+    // <-- Tipe data MhsModel diperlukan
     showDialog(
       context: context,
       builder: (BuildContext context) {

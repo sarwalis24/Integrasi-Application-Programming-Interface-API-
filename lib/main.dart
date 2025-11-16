@@ -23,14 +23,14 @@ import 'package:themenavigation/pages/add_book_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // --- 2. TAMBAHKAN KONDISI (!kIsWeb) ---
   // Hanya minta izin jika BUKAN di platform web
   if (!kIsWeb) {
     await _requestStoragePermission();
   }
   // ------------------------------------
-  
+
   runApp(
     MultiProvider(
       providers: [
@@ -64,11 +64,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aplikasi Flutter',
       theme: ThemeData(
-        // ... (Tema Anda tetap sama) ...
-      ),
-      
+          // ... (Tema Anda tetap sama) ...
+          ),
       initialRoute: '/splash',
-      
       routes: {
         // ... (Semua rute Anda tetap sama) ...
         '/splash': (context) => const SplashPage(),

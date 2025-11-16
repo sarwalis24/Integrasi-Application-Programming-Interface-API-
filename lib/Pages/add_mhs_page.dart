@@ -17,7 +17,7 @@ class _AddMhsPageState extends State<AddMhsPage> {
   final _nimController = TextEditingController();
   final _namaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   File? _selectedImage; // <-- State untuk menyimpan file gambar
 
   @override
@@ -30,7 +30,8 @@ class _AddMhsPageState extends State<AddMhsPage> {
   // --- FUNGSI UNTUK MENGAMBIL GAMBAR ---
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery); // Ambil dari galeri
+    final pickedFile = await picker.pickImage(
+        source: ImageSource.gallery); // Ambil dari galeri
 
     if (pickedFile != null) {
       setState(() {
@@ -50,11 +51,15 @@ class _AddMhsPageState extends State<AddMhsPage> {
       Provider.of<MhsProvider>(context, listen: false).addMhs(mhs);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Data ${mhs.nama} berhasil disimpan'), backgroundColor: Colors.green),
+        SnackBar(
+            content: Text('Data ${mhs.nama} berhasil disimpan'),
+            backgroundColor: Colors.green),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Mohon isi semua field'), backgroundColor: Colors.orange),
+        SnackBar(
+            content: Text('Mohon isi semua field'),
+            backgroundColor: Colors.orange),
       );
     }
   }
@@ -62,7 +67,8 @@ class _AddMhsPageState extends State<AddMhsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tambah Mahasiswa Baru", style: GoogleFonts.poppins())),
+      appBar: AppBar(
+          title: Text("Tambah Mahasiswa Baru", style: GoogleFonts.poppins())),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -75,11 +81,12 @@ class _AddMhsPageState extends State<AddMhsPage> {
                 child: CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[200],
-                  backgroundImage: _selectedImage != null 
+                  backgroundImage: _selectedImage != null
                       ? FileImage(_selectedImage!) // Tampilkan gambar jika ada
                       : null,
                   child: _selectedImage == null
-                      ? Icon(Icons.camera_alt_outlined, size: 50, color: Colors.grey[600]) // Ikon placeholder
+                      ? Icon(Icons.camera_alt_outlined,
+                          size: 50, color: Colors.grey[600]) // Ikon placeholder
                       : null,
                 ),
               ),
@@ -100,7 +107,7 @@ class _AddMhsPageState extends State<AddMhsPage> {
                   filled: true,
                   fillColor: Colors.white,
                 ),
-                validator: (value) { /* ... validasi ... */ },
+                validator: (value) {/* ... validasi ... */},
               ),
               const SizedBox(height: 20),
               TextFormField(
@@ -109,10 +116,10 @@ class _AddMhsPageState extends State<AddMhsPage> {
                 decoration: InputDecoration(
                   labelText: 'Nama Lengkap Mahasiswa',
                   prefixIcon: Icon(Icons.person_outline),
-                   filled: true,
-                   fillColor: Colors.white,
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
-                 validator: (value) { /* ... validasi ... */ },
+                validator: (value) {/* ... validasi ... */},
               ),
               const SizedBox(height: 40),
               ElevatedButton.icon(
@@ -120,8 +127,7 @@ class _AddMhsPageState extends State<AddMhsPage> {
                 label: const Text('Simpan Data'),
                 onPressed: _saveMhs,
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16)
-                ),
+                    padding: EdgeInsets.symmetric(vertical: 16)),
               ),
             ],
           ),

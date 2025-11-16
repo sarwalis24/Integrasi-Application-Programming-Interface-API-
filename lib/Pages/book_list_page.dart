@@ -4,106 +4,121 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:themenavigation/models/book_model.dart';
 import 'package:themenavigation/provider/api_provider.dart';
+import 'update_book_page.dart';
 
 class BookListPage extends StatelessWidget {
   const BookListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan 'watch' agar UI otomatis update saat data buku berubah
     final apiProvider = context.watch<ApiProvider>();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Data Buku (API) 📚",
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-        ),
+        title: Text("Data Buku 📚", style: GoogleFonts.poppins()),
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
-            tooltip: "Refresh Data",
-            onPressed: () async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Memuat ulang data...'))
-              );
-              await context.read<ApiProvider>().getBooks();
-               ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            onPressed: () {
+              context.read<ApiProvider>().getBooks();
             },
           )
         ],
       ),
-      backgroundColor: Colors.grey[100],
-      body: _buildBookList(context, apiProvider),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.add),
-        label: Text("Tambah Buku", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/add_book');
+          Navigator.pushNamed(context, "/add_book");
         },
+        child: Icon(Icons.add),
       ),
+      body: _buildBookList(context, apiProvider),
     );
   }
 
   Widget _buildBookList(BuildContext context, ApiProvider provider) {
     if (provider.isLoading && provider.books.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(child: CircularProgressIndicator());
     }
 
     if (!provider.isLoggedIn) {
-       return Center(child: Text("Sesi login API tidak ditemukan. Silakan login ulang."));
-    }
-
-    if (provider.apiErrorMessage.isNotEmpty && provider.books.isEmpty) {
-       return Center(child: Text("Gagal memuat data: ${provider.apiErrorMessage}"));
+      return Center(child: Text("Silakan login ulang."));
     }
 
     if (provider.books.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.menu_book_outlined, size: 80, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              "Belum ada data buku.",
-              style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey[600]),
-            ),
-          ],
-        ),
-      );
+      return Center(child: Text("Belum ada data buku."));
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16),
       itemCount: provider.books.length,
       itemBuilder: (context, index) {
         final book = provider.books[index];
+
         return Card(
-           margin: const EdgeInsets.only(bottom: 12.0),
-           elevation: 3,
-           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-           child: ListTile(
-             contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-             leading: CircleAvatar(child: Icon(Icons.book_online)),
-             title: Text(book.title, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-             subtitle: Text(book.author, style: GoogleFonts.poppins(color: Colors.black54)),
-             trailing: Row(
-               mainAxisSize: MainAxisSize.min,
-               children: [
-                 IconButton(
-                   icon: Icon(Icons.edit_outlined, color: Colors.blueAccent),
-                   onPressed: () { /* TODO: Navigasi ke Update Book */ },
-                 ),
-                 IconButton(
-                   icon: Icon(Icons.delete_outline, color: Colors.redAccent),
-                   onPressed: () { /* TODO: Panggil fungsi Delete Book */ },
-                 ),
-               ],
-             ),
-           ),
+          elevation: 3,
+          margin: EdgeInsets.only(bottom: 12),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            title: Text(book.title),
+            subtitle: Text(book.author),
+            leading: CircleAvatar(child: Icon(Icons.menu_book)),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Tombol Edit
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.blue),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => UpdateBookPage(book: book),
+                      ),
+                    );
+                  },
+                ),
+
+                // Tombol Delete
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () async {
+                    bool confirm = await _confirmDelete(context);
+
+                    if (confirm) {
+                      await Provider.of<ApiProvider>(context, listen: false)
+                          .deleteBook(book.id);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
+  }
+
+  Future<bool> _confirmDelete(BuildContext context) async {
+    return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Hapus Buku"),
+              content: Text("Yakin ingin menghapus?"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("Batal"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: Text("Hapus", style: TextStyle(color: Colors.red)),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 }
